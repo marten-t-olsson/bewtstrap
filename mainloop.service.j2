@@ -1,0 +1,12 @@
+#
+
+[Unit]
+Description=Mainloops
+Wants=mainloop.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/mainloop.sh
+
+[Install]
+WantedBy=multi-user.target

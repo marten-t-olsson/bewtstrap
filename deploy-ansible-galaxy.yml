@@ -1,0 +1,12 @@
+---
+- name: Install ansible-galaxy
+  debug:
+    msg: Install 
+
+- name: Configure ansible-galaxy
+  debug:
+    msg: Configure 
+
+- name: Verify funcionality
+  debug:
+    msg: Verify

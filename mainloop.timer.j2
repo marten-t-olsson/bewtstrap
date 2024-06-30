@@ -1,0 +1,12 @@
+#
+
+[Unit]
+Description=mainloop timer
+Requires=mainloop.service
+
+[Timer]
+Unit=mainloop.service
+OnCalendar=*-*-* *:*:00
+
+[Install]
+WantedBy=timers.target

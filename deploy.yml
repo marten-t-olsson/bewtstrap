@@ -1,0 +1,11 @@
+---
+- name: Run deployment tasks to deploy mainloop
+  hosts: localhost
+  tasks:
+    # Add the user that should execute the mainloop and the ansible playbooks.
+    # Should it execute as a regular user?
+    - include_tasks: deploy-hostname.yml
+
+    - include_tasks: deploy-ansible-galaxy.yml
+
+    - include_tasks: deploy-mainloop.yml

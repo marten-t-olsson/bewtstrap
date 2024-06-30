@@ -1,0 +1,58 @@
+---
+- name: Install prereq (if any)
+  debug:
+    msg: Install
+
+      #- name: Install python3
+      #become: true
+      #apt:
+      #name: python3, python3-venv
+      #state: present
+
+- name: Install mainloop.sh to /usr/local/sbin/
+  become: true
+  template:
+    src: mainloop.sh
+    dest: /usr/local/sbin/
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Install mainloop.service to /etc/systemd/system/
+  become: true
+  template:
+    src: mainloop.service.j2
+    dest: /etc/systemd/system/mainloop.service
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Install mainloop.timer to /etc/systemd/system/
+  become: true
+  template:
+    src: mainloop.timer.j2
+    dest: /etc/systemd/system/mainloop.timer
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Reload systemd units
+  become: true
+  systemd:
+    daemon_reload: true
+
+- name: Enable mainloop timer on boot
+  become: true
+  systemd:
+    name: mainloop.timer
+    enabled: true
+
+- name: Enable mainloop timer on current runtime
+  become: true
+  systemd:
+    name: mainloop.timer
+    state: started
+
+- name: Verify functionality
+  debug:
+    msg: Verify
