@@ -8,8 +8,10 @@ rm -rf $WORK_ROOTDIR
 ## Create WORK_ROOTDIR directory
 mkdir -p $WORK_ROOTDIR
 
+## Change path to WORK_ROOTDIR directory
+cd $WORK_ROOTDIR
+
 ## Download all playbooks
-echo "placehooder for downloading playbooks"
 git clone https://github.com/marten-t-olsson/bewtstrap.git
 
 ## Change directory into betstrap
