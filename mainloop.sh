@@ -1,6 +1,8 @@
 #!/bin/bash
 
-WORK_ROOTDIR='/tmp/workdir'
+WORK_ROOTDIR="/tmp/workdir"
+CONFIG_ROOTDIR="/etc/mainloop"
+CONFIG_FILE="${CONFIG_ROOTDIR}/playbooks"
 
 ## Clean old WORK_ROOTDIR
 rm -rf $WORK_ROOTDIR
@@ -14,11 +16,22 @@ cd $WORK_ROOTDIR
 ## Placeholder for fetching the playbook config for this device
 echo "Placeholder for fetching the playbook config for this device"
 
-## Placeholder for writing playbook config to local file
-echo "Placeholder for writing playbook config to local file"
+## Write playbook config to local file (static for now)
+sudo tee <<EOF  $CONFIG_FILE
+declare -A playbooks
+playbooks[https://github.com/marten-t-olsson/bewtstrap.git]="1.1"
+EOF
 
 ## Download all playbooks
-git clone https://github.com/marten-t-olsson/bewtstrap.git
+source $CONFIG_FILE
+
+for REPO in ${!playbooks[@]};
+do   
+	TAG=${playbooks[$REPO]}
+	git clone --depth 1 --branch $TAG $REPO
+done
+
+#git clone https://github.com/marten-t-olsson/bewtstrap.git
 
 ## Change directory into betstrap
 cd bewtstrap
