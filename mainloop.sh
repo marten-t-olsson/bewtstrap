@@ -19,7 +19,8 @@ echo "Placeholder for fetching the playbook config for this device"
 ## Write playbook config to local file (static for now)
 sudo tee <<EOF  $CONFIG_FILE
 declare -A playbooks
-playbooks[https://github.com/marten-t-olsson/bewtstrap.git]="1.1"
+playbooks[https://github.com/marten-t-olsson/bewtstrap.git]="1.2"
+playbooks[https://github.com/marten-t-olsson/deploy-docker.git]="1.1"
 EOF
 
 ## Download all playbooks
@@ -29,12 +30,10 @@ for REPO in ${!playbooks[@]};
 do   
 	TAG=${playbooks[$REPO]}
 	git clone --depth 1 --branch $TAG $REPO
+	## Convert repo URL into shortname
+	SHORTNAME=$(echo $REPO | awk -F/ '{ print $NF }' | awk -F. '{ print $1 }')
+	## Change directory into clone
+	cd ${WORK_ROOTDIR}/$SHORTNAME
+	## Execute ansible-playbook deploy.yml
+	ansible-playbook main.yml
 done
-
-#git clone https://github.com/marten-t-olsson/bewtstrap.git
-
-## Change directory into betstrap
-cd bewtstrap
-
-## Execute ansible-playbook deploy.yml
-ansible-playbook deploy.yml

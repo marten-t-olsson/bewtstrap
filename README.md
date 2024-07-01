@@ -4,4 +4,4 @@ Put public key in github
 On VM: first.sh  
 On VM: second.sh
 
-ansible-playbook deploy.yml -K
+ansible-playbook main.yml -K
