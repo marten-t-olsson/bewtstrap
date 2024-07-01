@@ -16,16 +16,17 @@ cd $WORK_ROOTDIR
 ## Placeholder for fetching the playbook config for this device
 echo "Placeholder for fetching the playbook config for this device"
 
-## Write playbook config to local file (static for now)
-sudo tee <<EOF  $CONFIG_FILE
-declare -A playbooks
-playbooks[https://github.com/marten-t-olsson/bewtstrap.git]="1.2"
-playbooks[https://github.com/marten-t-olsson/deploy-docker.git]="1.1"
-EOF
+## Write playbook config to local file
+#sudo tee <<EOF  $CONFIG_FILE
+#declare -A playbooks
+#playbooks[https://github.com/marten-t-olsson/bewtstrap.git]="1.2"
+#playbooks[https://github.com/marten-t-olsson/deploy-docker.git]="1.1"
+#EOF
 
-## Download all playbooks
+## Read local playbook config
 source $CONFIG_FILE
 
+## Download all playbooks
 for REPO in ${!playbooks[@]};
 do   
 	TAG=${playbooks[$REPO]}
