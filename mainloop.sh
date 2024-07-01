@@ -10,9 +10,6 @@ rm -rf $WORK_ROOTDIR
 ## Create WORK_ROOTDIR directory
 mkdir -p $WORK_ROOTDIR
 
-## Change path to WORK_ROOTDIR directory
-cd $WORK_ROOTDIR
-
 ## Placeholder for fetching the playbook config for this device
 echo "Placeholder for fetching the playbook config for this device"
 
@@ -29,6 +26,8 @@ source $CONFIG_FILE
 ## Download all playbooks
 for REPO in ${!playbooks[@]};
 do   
+        ## Change path to WORK_ROOTDIR directory
+        cd $WORK_ROOTDIR
 	TAG=${playbooks[$REPO]}
 	git clone --depth 1 --branch $TAG $REPO
 	## Convert repo URL into shortname
