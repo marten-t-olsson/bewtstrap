@@ -6,7 +6,8 @@ Wants=mainloop.timer
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/sbin/mainloop.sh
+#WorkingDirectory=/usr/local/sbin/mainloop
+ExecStart=/usr/local/sbin/mainloop/venv/bin/python /usr/local/sbin/mainloop/mainloop.py
 
 [Install]
 WantedBy=multi-user.target

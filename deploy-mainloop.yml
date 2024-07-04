@@ -1,15 +1,15 @@
 ---
-- name: Install prereq (if any)
-  debug:
-    msg: Install
-
-      #- name: Install python3
-      #become: true
-      #apt:
-      #name: python3, python3-venv
-      #state: present
+- name: Install python3
+  become: true
+  apt:
+    name: 
+      - python3
+      - python3-venv
+      - python3-pip
+    state: present
 
 - name: Create /etc/mainloop directory
+  become: true
   file:
     path: /etc/mainloop
     state: directory
@@ -17,11 +17,36 @@
     group: root
     mode: 0755
 
-- name: Install mainloop.sh to /usr/local/sbin/
+- name: Create /usr/local/sbin/mainloop directory
+  become: true
+  file:
+    path: /usr/local/sbin/mainloop
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install requirements.txt to /usr/local/sbin/mainloop
   become: true
   template:
-    src: mainloop.sh
-    dest: /usr/local/sbin/
+    src: requirements.txt
+    dest: /usr/local/sbin/mainloop/requirements.txt
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Install specified python requirements in indicated (virtualenv)
+  become: true
+  pip:
+    requirements: /usr/local/sbin/mainloop/requirements.txt
+    virtualenv: /usr/local/sbin/mainloop/venv
+    virtualenv_command: /usr/bin/python3 -m venv
+
+- name: Install mainloop.py to /usr/local/sbin/mainloop
+  become: true
+  template:
+    src: mainloop.py
+    dest: /usr/local/sbin/mainloop
     owner: root
     group: root
     mode: 0700
