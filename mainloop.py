@@ -4,11 +4,11 @@ import git
 import os
 import shutil
 import ansible_runner
+import socket
 
-def read_serial(serial_file_path):
-    with open(serial_file_path, 'r') as file:
-        serial = file.readline().strip()
-    return serial
+def read_hostname():
+    hostname = socket.gethostname()
+    return str(hostname)
 
 def prepare_config(config_dir):
     if not os.path.exists(config_dir):
@@ -79,13 +79,9 @@ def loop_repos(config):
 # Root directory where all repositories are cloned to
 work_root_dir="/usr/local/sbin/mainloop/workdir"
 
-# Temporarily we read from a manually edited file
-serial_file_path = "/etc/mainloop/serial"
-serial = read_serial(serial_file_path)
-
 # URL where we download the config for the device
 base_url = 'http://192.168.64.1:5001/read/serial/'
-url = 'http://192.168.64.1:5001/read/serial/' + serial
+url = 'http://192.168.64.1:5001/read/serial/' + read_hostname()
 
 # URL to where git repositories are found
 repo_base_url = "https://github.com/marten-t-olsson"
